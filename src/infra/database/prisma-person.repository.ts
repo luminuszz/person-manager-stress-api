@@ -4,6 +4,8 @@ import { Person } from '@domain/person/person';
 import { PrismaService } from './prisma.service';
 import { Person as PrismaPerson, Seguro } from '@prisma/client';
 
+import { UniqueEntityID } from '@core/entities/unique-entity-id';
+
 interface Target extends PrismaPerson {
   seguros: Seguro[];
 }
@@ -13,12 +15,15 @@ export class PrismaPersonRepository implements PersonRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   private prismaPersonToDomainPerson = (prismaPerson: Target): Person =>
-    Person.create({
-      nome: prismaPerson.nome,
-      nascimento: prismaPerson.nascimento,
-      seguros: prismaPerson.seguros.map((seguro) => seguro.name),
-      cpfCnpj: prismaPerson.cpfCnpj,
-    });
+    Person.create(
+      {
+        nome: prismaPerson.nome,
+        nascimento: prismaPerson.nascimento,
+        seguros: prismaPerson.seguros.map((seguro) => seguro.name),
+        cpfCnpj: prismaPerson.cpfCnpj,
+      },
+      new UniqueEntityID(prismaPerson.id),
+    );
 
   async create(person: Person): Promise<void> {
     await this.prisma.person.create({
@@ -47,5 +52,16 @@ export class PrismaPersonRepository implements PersonRepository {
     });
 
     return results ? this.prismaPersonToDomainPerson(results) : undefined;
+  }
+
+  async findAll(): Promise<Person[]> {
+    const results = await this.prisma.person.findMany({
+      take: 50,
+      include: {
+        seguros: true,
+      },
+    });
+
+    return results.map((result) => this.prismaPersonToDomainPerson(result));
   }
 }

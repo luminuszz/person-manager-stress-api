@@ -13,4 +13,14 @@ export class PersonFakeRepository implements PersonRepository {
       if (person.cpfCnpj === cpfCnpj) return person;
     }
   }
+
+  async findAll(): Promise<Person[]> {
+    const persons: Person[] = [];
+
+    for (const [, person] of this.persons) {
+      persons.push(person);
+    }
+
+    return persons;
+  }
 }
