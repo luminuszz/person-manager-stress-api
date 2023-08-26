@@ -1,0 +1,13 @@
+POST http://localhost:3000/pessoa
+Content-Type: application/json
+
+{
+  "nome": "Caros",
+  "cpfCnpj": "1111111111111",
+  "nascimento": "1990-01-01",
+  "seguros": ["brasilseg"]
+}
+
+
+
+
