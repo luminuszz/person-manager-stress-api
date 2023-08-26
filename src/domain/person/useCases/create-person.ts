@@ -21,10 +21,6 @@ export class CreatePersonUseCase implements UseCaseImplementation<CreateUserInpu
   async execute({ cpfCnpj, seguros, nome, nascimento }: CreateUserInput): Promise<CreateUserOutput> {
     const personExists = await this.personRepository.findByCpfCnpj(cpfCnpj);
 
-    console.log({
-      personExists,
-    });
-
     if (personExists) return left(new ResourceAlreadyExists('Person', cpfCnpj));
 
     const person = Person.create({

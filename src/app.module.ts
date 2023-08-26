@@ -1,9 +1,16 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from './infra/http/http.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CommonInterceptor } from './infra/utils/common.interceptor';
 
 @Module({
   imports: [HttpModule],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CommonInterceptor,
+    },
+  ],
 })
 export class AppModule {}
