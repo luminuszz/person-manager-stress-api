@@ -1,4 +1,4 @@
-POST http://localhost:3000/pessoa
+POST  {{baseUrl}}/pessoa
 Content-Type: application/json
 
 {

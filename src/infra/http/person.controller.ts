@@ -11,11 +11,15 @@ export class PersonController {
   @Post()
   @UsePipes(new ZodValidationPipe(createPersonSchema))
   async createPessoa(@Body() data: CreatePersonDto) {
-    await this.createPerson.execute({
+    const results = await this.createPerson.execute({
       nome: data.nome,
       seguros: data.seguros,
       cpfCnpj: data.cpfCnpj,
       nascimento: data.nascimento,
     });
+
+    if (results.isLeft()) {
+      throw results.value;
+    }
   }
 }
