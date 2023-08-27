@@ -59,15 +59,23 @@ services:
 
   db:
     container_name: database
+    env_file:
+      - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
     hostname: database
     image: postgres
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     ports:
       - "5432:5432"
+
+  cache:
+    image: redis:alpine
+    container_name: cache
+    ports:
+      - "6379:6379"
 
 
 

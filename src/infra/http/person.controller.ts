@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseInterceptors, UsePipes } from '@nestjs/common';
 
 import { CreatePersonDto, createPersonSchema } from './validators/create-person.schema';
 import { CreatePersonUseCase } from '@domain/person/useCases/create-person';
@@ -7,6 +7,7 @@ import { FetchPersonsUseCase } from '@domain/person/useCases/fetchPersons';
 import { PersonModel } from './person.model';
 import { FindPersonByIdUseCase } from '@domain/person/useCases/FindPersonById';
 import { ParseObjectIdPipe } from '../utils/parse-objectId.pipe';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('/pessoa')
 export class PersonController {
@@ -32,6 +33,7 @@ export class PersonController {
   }
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
   async getAllPessoas(@Query('t') query: string) {
     const results = await this.fetchPersons.execute({ query });
 

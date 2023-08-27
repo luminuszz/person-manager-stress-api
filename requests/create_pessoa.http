@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "id" : "f7379ae8-8f9b-4cd5-8221-51efe19e721b",
   "nome": "fulano da silva",
-  "cpfCnpj": "00000000000",
+  "cpfCnpj": "01200300306",
   "nascimento": "1989-07-30",
   "seguros": ["vida", "residencial", "itens-pessoais"]
 }
