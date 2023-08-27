@@ -1,2 +1,2 @@
-GET {{baseUrl}}/pessoa
+GET {{baseUrl}}/pessoa?t=Caros
 

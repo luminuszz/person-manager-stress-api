@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
 
 import { CreatePersonDto, createPersonSchema } from './validators/create-person.schema';
 import { CreatePersonUseCase } from '@domain/person/useCases/create-person';
@@ -32,8 +32,8 @@ export class PersonController {
   }
 
   @Get()
-  async getAllPessoas() {
-    const results = await this.fetchPersons.execute();
+  async getAllPessoas(@Query('t') query: string) {
+    const results = await this.fetchPersons.execute({ query });
 
     if (results.isLeft()) {
       throw results.value;

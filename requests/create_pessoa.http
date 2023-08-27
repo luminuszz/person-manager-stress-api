@@ -2,10 +2,11 @@ POST  {{baseUrl}}/pessoa
 Content-Type: application/json
 
 {
-  "nome": "Caros",
-  "cpfCnpj": "1111111111111",
-  "nascimento": "1990-01-01",
-  "seguros": ["brasilseg"]
+  "id" : "f7379ae8-8f9b-4cd5-8221-51efe19e721b",
+  "nome": "fulano da silva",
+  "cpfCnpj": "00000000000",
+  "nascimento": "1989-07-30",
+  "seguros": ["vida", "residencial", "itens-pessoais"]
 }
 
 

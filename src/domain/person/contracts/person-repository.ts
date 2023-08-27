@@ -5,7 +5,7 @@ export abstract class PersonRepository {
 
   abstract findByCpfCnpj(cpfCnpj: string): Promise<Person | undefined>;
 
-  abstract findAll(): Promise<Person[]>;
+  abstract findAll(query?: string): Promise<Person[]>;
 
   abstract findById(id: string): Promise<Person | undefined>;
 }

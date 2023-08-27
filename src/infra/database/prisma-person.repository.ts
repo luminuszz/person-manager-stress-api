@@ -54,12 +54,43 @@ export class PrismaPersonRepository implements PersonRepository {
     return results ? this.prismaPersonToDomainPerson(results) : undefined;
   }
 
-  async findAll(): Promise<Person[]> {
+  async findAll(query?: string): Promise<Person[]> {
+    if (!query) {
+      const results = await this.prisma.person.findMany({
+        take: 50,
+        include: {
+          seguros: true,
+        },
+      });
+
+      return results.map((result) => this.prismaPersonToDomainPerson(result));
+    }
+
     const results = await this.prisma.person.findMany({
-      take: 50,
+      where: {
+        OR: [
+          {
+            nome: {
+              contains: query,
+            },
+          },
+
+          {
+            seguros: {
+              some: {
+                name: {
+                  contains: query,
+                },
+              },
+            },
+          },
+        ],
+      },
+
       include: {
         seguros: true,
       },
+      take: 50,
     });
 
     return results.map((result) => this.prismaPersonToDomainPerson(result));
