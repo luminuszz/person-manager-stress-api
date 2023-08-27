@@ -2,16 +2,17 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Person {
-  id         String   @id @map("_id") @db.ObjectId
+  id         String   @id
   nome       String
   cpfCnpj    String   @unique @map("cpf_cnpj")
   nascimento String
@@ -19,8 +20,8 @@ model Person {
 }
 
 model Seguro {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String @id @default(uuid())
   name     String
   Person   Person @relation(fields: [personId], references: [id])
-  personId String @db.ObjectId
+  personId String
 }

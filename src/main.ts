@@ -3,5 +3,8 @@ import { AppModule } from './app.module';
 
 (async () => {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+
+  app.setGlobalPrefix('api');
+
+  await app.listen(process.env.API_PORT, () => console.log('Server started dsad'));
 })();

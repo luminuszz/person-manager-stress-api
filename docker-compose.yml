@@ -1,0 +1,76 @@
+version: '3.5'
+services:
+  api1: # API - Instância 01
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      -  API_PORT=3000
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: api1
+    depends_on:
+      - db
+    expose:
+      - "80"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: '0.5GB'
+
+  api2:
+    environment:
+      - API_PORT=3001
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: api2
+    depends_on:
+      - db
+    expose:
+      - "80"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: '0.5GB'
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api1
+      - api2
+    ports:
+      - "9999:9999"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: '0.5GB'
+
+  db:
+    container_name: database
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    hostname: database
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - "5432:5432"
+
+
+
+
+volumes:
+  pgdata:
