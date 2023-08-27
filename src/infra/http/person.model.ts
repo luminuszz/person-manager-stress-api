@@ -2,6 +2,7 @@ import { Person } from '@domain/person/person';
 import { z } from 'zod';
 
 const personHttpSchema = z.object({
+  id: z.string(),
   nome: z.string(),
   nascimento: z.string(),
   seguros: z.array(z.string()),

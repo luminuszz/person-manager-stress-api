@@ -8,7 +8,7 @@ export class PersonFakeRepository implements PersonRepository {
     this.persons.set(person.id.toString(), person);
   }
 
-  async findByCpfCnpj(cpfCnpj: string): Promise<Person | undefined> {
+  async findByCpfCnpj(cpfCnpj: string): Promise<Person | null> {
     for (const [, person] of this.persons) {
       if (person.cpfCnpj === cpfCnpj) return person;
     }
@@ -22,5 +22,11 @@ export class PersonFakeRepository implements PersonRepository {
     }
 
     return persons;
+  }
+
+  async findById(id: string): Promise<Person | null> {
+    for (const [, person] of this.persons) {
+      if (person.id === id) return person;
+    }
   }
 }

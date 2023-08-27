@@ -64,4 +64,17 @@ export class PrismaPersonRepository implements PersonRepository {
 
     return results.map((result) => this.prismaPersonToDomainPerson(result));
   }
+
+  async findById(id: string): Promise<Person | undefined> {
+    const results = await this.prisma.person.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        seguros: true,
+      },
+    });
+
+    return results ? this.prismaPersonToDomainPerson(results) : undefined;
+  }
 }
