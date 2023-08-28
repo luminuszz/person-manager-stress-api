@@ -22,7 +22,7 @@ describe('FetchPersons', () => {
       await createPersonUseCase.execute(createPersonPayload());
     }
 
-    const results = await stu.execute();
+    const results = await stu.execute({ query: null });
 
     expect(results.isRight()).toBeTruthy();
 

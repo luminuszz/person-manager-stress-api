@@ -12,14 +12,12 @@ import * as redisStore from 'cache-manager-redis-store';
   imports: [
     DatabaseModule,
     CacheModule.registerAsync({
-      useFactory: async (config: ConfigService) =>
-        ({
-          store: redisStore,
-          host: config.get('REDIS_HOST'),
-          port: config.get('REDIS_PORT'),
-          ttl: 5,
-          max: 20,
-        } as any),
+      useFactory: (configService: ConfigService) => ({
+        store: redisStore as any,
+        host: configService.get('REDIS_HOST'),
+        port: configService.get('REDIS_PORT'),
+        ttl: 5,
+      }),
       inject: [ConfigService],
     }),
   ],

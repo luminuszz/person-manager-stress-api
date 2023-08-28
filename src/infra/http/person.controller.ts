@@ -10,6 +10,7 @@ import { ParseObjectIdPipe } from '../utils/parse-objectId.pipe';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('/pessoa')
+@UseInterceptors(CacheInterceptor)
 export class PersonController {
   constructor(
     private createPerson: CreatePersonUseCase,
@@ -33,8 +34,9 @@ export class PersonController {
   }
 
   @Get()
-  @UseInterceptors(CacheInterceptor)
   async getAllPessoas(@Query('t') query: string) {
+    console.log('query', query);
+
     const results = await this.fetchPersons.execute({ query });
 
     if (results.isLeft()) {
